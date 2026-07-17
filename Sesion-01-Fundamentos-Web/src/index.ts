@@ -122,8 +122,15 @@ export function classifyStatus(code: number): StatusCategory {
  * nombre y valor. Recuerda `.trim()` para quitar espacios sobrantes.
  */
 export function parseHeaders(text: string): Headers {
+  const lines = text.split("\n");
+  const headers: Headers = {};
+  for (const line of lines) {
+    const [name, value] = line.split(":");
+    //const record: Record<string, string> = {name.trim(), value.trim()};
+    headers[name.trim()] = value.trim();
+   } 
   // TODO: tu implementación aquí
-  throw new Error("Not implemented");
+  return headers;
 }
 
 /**
@@ -145,8 +152,15 @@ export function summarizeRequest(
   status: number,
   headersText: string,
 ): string {
+  const summary = "Resumen de la petición\n"
+  + "──────────────────────\n"
+  + `URL:     ${url}\n`
+  + `Status:  ${status} (${classifyStatus(status)})\n`
+  + "Headers:\n";
+  const headers = parseHeaders(headersText);
+  return summary;
   // TODO: tu implementación aquí
-  throw new Error("Not implemented");
+ 
 }
 
 // ---------------------------------------------------------------------------
