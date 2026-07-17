@@ -60,6 +60,11 @@ export type Headers = Record<string, string>;
  * Si la URL no es válida, `new URL()` lanza TypeError — no hace falta
  * que lo manejes aparte, se propagará solo.
  */
+/**
+ * analiza las partes de una url y devuelve un objeto con las partes de la url
+ * @param url - texto de la url 
+ * @returns {UrlParts} - objeto con las partes de la url
+ */
 export function parseUrl(url: string): UrlParts {
   // TODO: tu implementación aquí
   const u = new URL(url);
@@ -86,6 +91,11 @@ export function parseUrl(url: string): UrlParts {
  *   otro    → "Desconocido"
  *
  * Pista: un único `if / else if` con comparaciones de rangos basta.
+ */
+/**
+ * 
+ * @param code - numero que identifica el status htpp
+ * @returns  {StatusCategory} - categoria del status http
  */
 export function classifyStatus(code: number): StatusCategory {
     if (code  >= 100 && code <= 199) {
@@ -121,10 +131,19 @@ export function classifyStatus(code: number): StatusCategory {
  * Pista: `text.split("\n")` te da las líneas; `String.split(":")` te separa
  * nombre y valor. Recuerda `.trim()` para quitar espacios sobrantes.
  */
+/**
+ *  Parsea un texto con líneas de cabeceras HTTP al formato
+ * `Record<string, string>`. El separador entre nombre y valor es ":".
+ * @param text - tiene las lineas de las cabeceras
+ * @returns {Headers} - objeto con las cabeceras
+ */
 export function parseHeaders(text: string): Headers {
   const lines = text.split("\n");
   const headers: Headers = {};
   for (const line of lines) {
+    if (line.trim() === "" || !line.includes(":")) {
+      continue; 
+    }
     const [name, value] = line.split(":");
     //const record: Record<string, string> = {name.trim(), value.trim()};
     headers[name.trim()] = value.trim();
@@ -146,6 +165,14 @@ export function parseHeaders(text: string): Headers {
  *   Headers:
  *     • Content-Type: application/json
  *     • Authorization: Bearer abc
+ */
+
+/**
+ * Combina las funciones anteriores en un resumen legible.
+ * @param url - url formato valido
+ * @param status  codigo del status htpp
+ * @param headersText - texto con las cabeceras 
+ * @returns {string} - resumen de la peticion
  */
 export function summarizeRequest(
   url: string,
