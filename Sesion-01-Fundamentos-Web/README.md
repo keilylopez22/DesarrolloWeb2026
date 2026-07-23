@@ -40,7 +40,10 @@ Si tu repo personal aún no tiene el remote `instructor`, agrégalo (el
 instructor te pasa la URL):
 
 ```bash
-git remote add instructor git@github.com:umg/tareas-curso-desarrollo-web.git
+# Si esta utilizando git con https, usar este commando
+git remote add instructor https://github.com/MvaldezUMG/DesarrolloWeb2026.git
+# Si esta utilizando git ssh, usar este commando en su lugar
+gir remote add instructor git@github.com:MvaldezUMG/DesarrolloWeb2026.git
 git remote -v
 ```
 
