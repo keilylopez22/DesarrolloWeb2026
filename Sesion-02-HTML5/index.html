@@ -11,27 +11,43 @@
 <body>
 
   <!-- TODO: header con navegacion a las otras 3 paginas -->
-  <header>
-    <h1>Mi Sitio</h1>
-    <nav>
-      <ul>
-        <li><a href="pagina1.html">Página 1</a></li>
-        <li><a href="pagina2.html">Página 2</a></li>
-        <li><a href="pagina3.html">Página 3</a></li>
+  <header
+    style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #f0f0f0;">
+    <h1>K-Dramas-K</h1>
+
+  </header>
+  <div class="container"
+    style=" display: inline-block; justify-content: space-between; align-items: center; padding: 10px; background-color: #f0f0f0;">
+    <nav style=" padding: 15px; background-color: #f0f0f0;">
+      <ul style="display: inline-block; list-style: none; margin: 0; padding: 0; ">
+        <li style="display: inline; margin:0 15px;"><a href="pagina1.html">Página 1</a></li>
+        <li style="display: inline; margin:0 15px;"><a href="pagina2.html">Página 2</a></li>
+        <li style="display: inline; margin:0 15px; "><a href="pagina3.html">Página 3</a></li>
       </ul>
     </nav>
 
-  </header>
+  </div>
+
 
 
   <main>
     <article>
-      <h2>Bienvenido</h2>
+      <h2>¡Bienvenidos a este rincón del mundo KDRAMA!</h2>
 
       <!-- TODO: usa <figure> + <figcaption> para una imagen con alt y loading="lazy" -->
-      <img src="https://via.placeholder.com/800x400" alt="Imagen de bienvenida" width="800" height="400" loading="lazy">
+      <img src="images/OIP.webp" alt="Imagen de bienvenida" width="auto" height="auto" loading="lazy">
 
-      <p>Parrafo de introduccion. Lorem ipsum dolor sit amet.</p>
+      <p>Si eres de los que se desvela viendo un K-drama, llora con los finales inesperados, se emociona con un buen
+        anime o simplemente siente curiosidad por la cultura asiática, este blog es para ti. </p>
+
+      <p>Aquí encontrarás recomendaciones de K-dramas, animes japoneses, películas y series asiáticas, reseñas sin
+        spoilers, noticias, curiosidades, personajes inolvidables y mucho más. </p>
+      <p> La idea es crear un espacio donde podamos compartir opiniones, descubrir nuevas historias y disfrutar juntos
+        de todo lo que el entretenimiento asiático tiene para ofrecer.</p>
+
+      <p>Así que prepárate para conocer nuevas aventuras, reír, llorar, enamorarte de personajes increíbles y encontrar
+        tu próxima obsesión. ¡Ponte cómodo y disfruta del viaje por el fascinante mundo del entretenimiento asiático!.
+      </p>
 
       <!-- TODO: usa <dialog> + un boton con command/commandfor (Invoker Commands API) -->
       <dialog id="bienvenida">
