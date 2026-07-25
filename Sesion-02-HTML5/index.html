@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Sitio — Inicio</title>
   <!-- TODO: agrega meta description, autor, favicon -->
+   <meta name="description" content="Blog de Kdramas">
+   <meta name="autor" content="Keily López">
+   <link rel="icon" href="images/poster_12565354.png" type="image/png">
 </head>
 
 <body>
@@ -51,21 +54,21 @@
 
       <!-- TODO: usa <dialog> + un boton con command/commandfor (Invoker Commands API) -->
       <dialog id="bienvenida">
-        <h3>Hola!</h3>
-        <p>Esto es un dialog modal nativo.</p>
+        <h3>Hola Kdramista!</h3>
+        <p>Espero disfrutes este blog.</p>
         <form method="dialog">
           <button>Cerrar</button>
         </form>
       </dialog>
       <button command="show-modal" commandfor="bienvenida">
-        Abrir dialog
+        Bienvenido
       </button>
 
       <!-- TODO: usa popover para un menu o tooltip -->
-      <button popovertarget="menu-ayuda">?</button>
+      <button popovertarget="menu-ayuda">Más informacion</button>
       <div id="menu-ayuda" popover>
         <h4>Ayuda</h4>
-        <p>Contenido del popover...</p>
+        <p>Para mas informacion visita youtube o viki rakuten...</p>
       </div>
 
       <!-- TODO: formulario con al menos 3 inputs (text, email, etc.) -->
@@ -84,6 +87,14 @@
     </article>
 
     <!-- TODO: usa <aside> para contenido lateral -->
+      <aside>
+        <h3>sitio relacionados</h3>
+        <ul>  
+          <li><a href="https://www.viki.com/">Viki Rakuten</a></li>
+          <li><a href="https://www.chirchi.com/dramas/">Chirchi</a> </li>
+          <li><a href="https://www.k-dramas.com/es/#google_vignette">kdramas</a></li>
+        </ul>
+      </aside>
   </main>
 
   <footer>
