@@ -11,34 +11,28 @@
    <link rel="icon" href="images/poster_12565354.png" type="image/png">
 </head>
 
-<body>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #fff5f7; color: #333;">
 
   <!-- TODO: header con navegacion a las otras 3 paginas -->
-  <header
-    style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background-color: #f0f0f0;">
-    <h1>K-Dramas-K</h1>
-
+  <header style="display: flex; justify-content: center; align-items: center; padding: 15px; background-color: #c0392b;">
+    <h1 style="color: white; margin: 0;">K-Dramas-K</h1>
   </header>
-  <div class="container"
-    style=" display: inline-block; justify-content: space-between; align-items: center; padding: 10px; background-color: #f0f0f0;">
-    <nav style=" padding: 15px; background-color: #f0f0f0;">
-      <ul style="display: inline-block; list-style: none; margin: 0; padding: 0; ">
-        <li style="display: inline; margin:0 15px;"><a href="pagina1.html">Página 1</a></li>
-        <li style="display: inline; margin:0 15px;"><a href="pagina2.html">Página 2</a></li>
-        <li style="display: inline; margin:0 15px; "><a href="pagina3.html">Página 3</a></li>
-      </ul>
-    </nav>
-
-  </div>
+  <nav style="display: flex; justify-content: center; background-color: #e74c3c; padding: 10px;">
+    <ul style="display: flex; list-style: none; margin: 0; padding: 0; gap: 20px;">
+      <li><a href="pagina1.html" style="color: white; text-decoration: none;">Página 1</a></li>
+      <li><a href="pagina2.html" style="color: white; text-decoration: none;">Página 2</a></li>
+      <li><a href="pagina3.html" style="color: white; text-decoration: none;">Página 3</a></li>
+    </ul>
+  </nav>
 
 
 
-  <main>
-    <article>
-      <h2>¡Bienvenidos a este rincón del mundo KDRAMA!</h2>
+  <main style="display: flex; gap: 20px; padding: 20px; max-width: 900px; margin: 0 auto;">
+    <article style="flex: 2;">
+      <h2 style="color: #c0392b;">¡Bienvenidos a este rincón del mundo KDRAMA!</h2>
 
       <!-- TODO: usa <figure> + <figcaption> para una imagen con alt y loading="lazy" -->
-      <img src="images/OIP.webp" alt="Imagen de bienvenida" width="auto" height="auto" loading="lazy">
+      <img src="images/OIP.webp" alt="Imagen de bienvenida" width="300" loading="lazy" style="border-radius: 8px;">
 
       <p>Si eres de los que se desvela viendo un K-drama, llora con los finales inesperados, se emociona con un buen
         anime o simplemente siente curiosidad por la cultura asiática, este blog es para ti. </p>
@@ -60,19 +54,19 @@
           <button>Cerrar</button>
         </form>
       </dialog>
-      <button command="show-modal" commandfor="bienvenida">
+      <button command="show-modal" commandfor="bienvenida" style="background-color: #c0392b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
         Bienvenido
       </button>
 
       <!-- TODO: usa popover para un menu o tooltip -->
-      <button popovertarget="menu-ayuda">Más informacion</button>
+      <button popovertarget="menu-ayuda" style="background-color: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Más informacion</button>
       <div id="menu-ayuda" popover>
         <h4>Ayuda</h4>
         <p>Para mas informacion visita youtube o viki rakuten...</p>
       </div>
 
       <!-- TODO: formulario con al menos 3 inputs (text, email, etc.) -->
-      <form action="#" method="POST">
+      <form action="#" method="POST" style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
         <label for="nombre">Nombre:</label>
         <input id="nombre" type="text" name="nombre" required minlength="3">
 
@@ -82,13 +76,13 @@
         <label for="mensaje">Mensaje:</label>
         <textarea id="mensaje" name="mensaje" rows="4"></textarea>
 
-        <button type="submit">Enviar</button>
+        <button type="submit" style="background-color: #c0392b; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">Enviar</button>
       </form>
     </article>
 
     <!-- TODO: usa <aside> para contenido lateral -->
-      <aside>
-        <h3>sitio relacionados</h3>
+      <aside style="flex: 1; background-color: #fce4e4; padding: 15px; border-radius: 8px; height: fit-content;">
+        <h3 style="color: #c0392b;">Sitios relacionados</h3>
         <ul>  
           <li><a href="https://www.viki.com/">Viki Rakuten</a></li>
           <li><a href="https://www.chirchi.com/dramas/">Chirchi</a> </li>
@@ -97,7 +91,7 @@
       </aside>
   </main>
 
-  <footer>
+  <footer style="text-align: center; padding: 15px; background-color: #c0392b; color: white; margin-top: 20px;">
     <p>&copy; 2026 Mi Sitio — Universidad Mariano Galvez</p>
   </footer>
 
