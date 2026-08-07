@@ -1,6 +1,29 @@
 /* TODO: Reset y estilos base */
 
 /* TODO: Galería de productos */
+.galeria{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.producto{
+    padding: 1px;
+    width: 33%;
+    background: rgb(63, 181, 214);
+    text-align: center;
+}
+.producto img{
+    width: 100%;
+}
+.producto h2{
+    font-size: 15px;
+
+}
+.btn-comprar:hover{
+    background-color: gray;
+    transform: translateY(-4px);
+
+}
 /* Desktop (>=1024px): 3 columnas usando CSS Grid */
 /* Mobile (<768px): 1 columna con scroll vertical */
 
