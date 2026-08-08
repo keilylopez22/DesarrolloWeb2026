@@ -5,7 +5,7 @@
   "description": "Tarea: Galería de productos con CSS — Desarrollo Web Sesión 3",
   "scripts": {
     "test": "node --test tests/grader.test.js",
-    "serve": "python3 -m http.server 8080"
+    "serve": "python -m http.server 8080"
   },
   "keywords": ["umg", "css", "html", "tarea"],
   "license": "UNLICENSED"
