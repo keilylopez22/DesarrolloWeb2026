@@ -5,7 +5,7 @@
   "description": "Tarea: Lista de Tareas con JavaScript y localStorage — Desarrollo Web Sesión 4",
   "scripts": {
     "test": "node --test tests/grader.test.js",
-    "serve": "python3 -m http.server 8080"
+    "serve": "python -m http.server 8080"
   },
   "dependencies": {
     "jsdom": "^24.0.0"
