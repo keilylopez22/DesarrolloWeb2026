@@ -80,7 +80,16 @@ export function toggleTarea(id) {
  * @returns {Array}
  */
 export function filtrarTareas(filtro) {
+    console.log("filtrartareas")
     // TODO: implementar la lógica de filtrado.
+    switch (filtro) {
+        case "pendientes":
+            return tareas.filter(tarea => !tarea.completada);
+        case "completadas":
+            return tareas.filter(tarea => tarea.completada);
+        default:
+            return tareas;
+    }
 }
 
 /**
@@ -89,6 +98,7 @@ export function filtrarTareas(filtro) {
 export function guardar() {
     // TODO: usar localStorage.setItem con la clave STORAGE_KEY.
     // El valor debe ser JSON.stringify(tareas).
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tareas));
 }
 
 /**
@@ -98,6 +108,15 @@ export function cargar() {
     // TODO: leer localStorage con STORAGE_KEY.
     // Si existe, hacer JSON.parse y asignarlo a `tareas`.
     // Si no existe o falla, `tareas` se queda como [].
+    try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (data) {
+            tareas = JSON.parse(data);
+        }
+    } catch (e) {
+        console.error("Error al cargar las tareas:", e);
+        tareas = [];
+    }
 }
 
 // =====================================================
@@ -116,7 +135,7 @@ export function render(filtro = "todas") {
 
     lista.innerHTML = "";
     const visibles = filtrarTareas(filtro);
-
+   
     for (const tarea of visibles) {
         const li = document.createElement("li");
         if (tarea.completada) li.classList.add("completada");
@@ -161,6 +180,7 @@ export function render(filtro = "todas") {
 let filtroActual = "todas";
 
 function init() {
+    
     cargar();
     render(filtroActual);
 
