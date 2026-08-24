@@ -70,6 +70,13 @@ export function eliminarTarea(id) {
  * @returns {boolean}
  */
 export function toggleTarea(id) {
+    for (const tarea of tareas) {
+        if (tarea.id === id) {
+            tarea.completada = !tarea.completada;
+            return true;
+        }
+    }
+    return false;
     // TODO: recorrer `tareas` y cambiar `completada` de la que coincida.
     // Devuelve true si la encontró.
 }
