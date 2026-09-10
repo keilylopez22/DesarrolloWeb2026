@@ -189,7 +189,37 @@ export async function agregarMensaje(archivoDatos, texto) {
  * @returns {import('node:http').Server}
  */
 export function crearServidor(config = {}) {
-    throw new Error('Not implemented: crearServidor');
+    const { archivoDatos = 'data/mensajes.json', nombreApp = 'mensajes-api', logger = crearLogger() } = config;
+
+    return http.createServer(async (req, res) => {
+        const { method, url } = req;
+        logger.registrar(`${method} ${url}`);
+
+        res.setHeader('Content-Type', 'application/json');
+
+        if (method === 'GET' && url === '/') {
+            res.writeHead(200);
+            res.end(JSON.stringify({ mensaje: `Bienvenido a ${nombreApp}`, hora: new Date().toISOString(), sistema: infoSistema() }));
+        } else if (method === 'GET' && url === '/mensajes') {
+            const mensajes = await leerMensajes(archivoDatos);
+            res.writeHead(200);
+            res.end(JSON.stringify(mensajes));
+        } else if (method === 'POST' && url === '/mensajes') {
+            try {
+                const body = JSON.parse(await leerBody(req));
+                const nuevo = await agregarMensaje(archivoDatos, body.texto);
+                if (!nuevo) { res.writeHead(400); res.end(JSON.stringify({ error: 'Texto inválido' })); return; }
+                res.writeHead(201);
+                res.end(JSON.stringify(nuevo));
+            } catch {
+                res.writeHead(500);
+                res.end(JSON.stringify({ error: 'Error interno' }));
+            }
+        } else {
+            res.writeHead(404);
+            res.end(JSON.stringify({ error: 'Ruta no encontrada' }));
+        }
+    });
 }
 
 /**
@@ -200,6 +230,9 @@ export function crearServidor(config = {}) {
  * @returns {import('node:http').Server}
  */
 export function iniciarServidor(config = {}) {
-    throw new Error('Not implemented: iniciarServidor');
+    const { puerto = 3000, logger = crearLogger() } = config;
+    const server = crearServidor(config);
+    server.listen(puerto, () => logger.registrar(`Servidor en http://localhost:${puerto}`));
+    return server;
 }
 
