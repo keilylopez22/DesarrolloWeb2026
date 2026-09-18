@@ -34,8 +34,10 @@ export class RepositorioAlumnos {
      * @returns {Alumno[]}
      */
     listar() {
-        throw new Error('TODO: implementar RepositorioAlumnos.listar()');
-    }
+        const alumnos =
+        this.alumnos.map((a) => ({...a}))
+        return alumnos
+       }
 
     /**
      * Busca un alumno por id.
@@ -43,8 +45,9 @@ export class RepositorioAlumnos {
      * @returns {Alumno | undefined}
      */
     obtener(id) {
-        throw new Error('TODO: implementar RepositorioAlumnos.obtener()');
-    }
+        
+        return this.alumnos.find((a) => a.id === id);
+        }
 
     /**
      * Crea un alumno nuevo. El id lo genera el repositorio (`a-1`, `a-2`, ...).
@@ -52,8 +55,16 @@ export class RepositorioAlumnos {
      * @returns {Alumno}
      */
     crear(datos) {
-        throw new Error('TODO: implementar RepositorioAlumnos.crear()');
-    }
+        
+        const id = `a-${this.siguienteId}`
+        this.siguienteId++
+        const nuevo = {
+            id,
+            ...datos
+        }
+        this.alumnos.push(nuevo)
+        return nuevo
+        }
 
     /**
      * Actualiza un alumno existente (solo los campos enviados).
@@ -62,8 +73,13 @@ export class RepositorioAlumnos {
      * @returns {Alumno | undefined} el alumno actualizado, o undefined si no existe
      */
     actualizar(id, datos) {
-        throw new Error('TODO: implementar RepositorioAlumnos.actualizar()');
-    }
+        let alumno = this.alumnos.find((a) => a.id === id);
+        if(alumno){
+            alumno={...alumno,...datos}
+            return alumno
+        }
+        
+        }
 
     /**
      * Elimina un alumno por id.
@@ -71,6 +87,12 @@ export class RepositorioAlumnos {
      * @returns {boolean} true si lo eliminó, false si no existía
      */
     eliminar(id) {
-        throw new Error('TODO: implementar RepositorioAlumnos.eliminar()');
-    }
+        
+       let alumno= this.alumnos.find((a) => a.id === id);
+       if(alumno){
+        this.alumnos.pop(alumno)
+        return true
+       }
+       return false
+         }
 }
