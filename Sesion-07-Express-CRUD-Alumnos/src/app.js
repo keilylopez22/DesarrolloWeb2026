@@ -31,6 +31,13 @@ export const __dirname = dirname(__filename);
  * @type {import('express').RequestHandler}
  */
 export function autenticacionFalsa(req, res, next) {
+    
+    const apiKey = req.get('x-api-key') || '';
+    const expectedApiKey = process.env.API_KEY || 'umg-2026';
+
+    if (apiKey !== expectedApiKey) {
+        return res.status(401).json({ error: 'No autorizado' });
+    }
     next(); // ← TODO: reemplazar por la validación del header
 }
 
@@ -47,6 +54,21 @@ export function autenticacionFalsa(req, res, next) {
  * @type {import('express').RequestHandler}
  */
 export function validarAlumno(req, res, next) {
+    
+    const { nombre, apellido, email, edad } = req.body;
+    if (!nombre || typeof nombre !== 'string' || nombre.trim() === '') {
+        return res.status(400).json({ error: 'El nombre es requerido y debe ser un string no vacío' });
+    }
+    if (!apellido || typeof apellido !== 'string' || apellido.trim() === '') {
+        return res.status(400).json({ error: 'El apellido es requerido y debe ser un string no vacío' });
+    }
+    if (!email || typeof email !== 'string' || !email.includes('@')) {
+        return res.status(400).json({ error: 'El email es requerido y debe contener @' });
+    }
+    if (edad !== undefined && (typeof edad !== 'number' || edad < 0)) {
+        return res.status(400).json({ error: 'La edad debe ser un número mayor o igual a 0' });
+    }
+    
     next(); // ← TODO: reemplazar por las validaciones
 }
 
@@ -66,33 +88,47 @@ export function crearApp(repositorio) {
 
     // Middlewares base
     app.use(express.json());
+    app.use(autenticacionFalsa);
+ 
 
     // Sitio web estático (public/index.html, styles.css, app.js)
     app.use(express.static(join(__dirname, '..', 'public')));
 
     // TODO: GET /alumnos → lista todos                    → 200 [ ...alumnos ]
     app.get('/alumnos', (req, res) => {
-        res.status(501).json({ error: 'TODO: GET /alumnos' });
+        const alumnos = repositorio.listar();
+        res.status(200).json(alumnos)
     });
 
     // TODO: GET /alumnos/:id → uno o 404
     app.get('/alumnos/:id', (req, res) => {
-        res.status(501).json({ error: 'TODO: GET /alumnos/:id' });
+        const alumno = repositorio.obtener(req.params.id);
+        return alumno 
+            ? res.status(200).json(alumno)
+            : res.status(404).json({ error: 'Alumno no encontrado' })
     });
 
     // TODO: POST /alumnos → crear (requiere autenticacionFalsa + validarAlumno) → 201
-    app.post('/alumnos', (req, res) => {
-        res.status(501).json({ error: 'TODO: POST /alumnos' });
+    app.post('/alumnos', validarAlumno,(req, res) => {
+       const nuevoAlumno = repositorio.crear(req.body);
+       res.status(201).json(nuevoAlumno)
+
     });
 
     // TODO: PUT /alumnos/:id → actualizar (auth + validarAlumno) → 200 o 404
-    app.put('/alumnos/:id', (req, res) => {
-        res.status(501).json({ error: 'TODO: PUT /alumnos/:id' });
+    app.put('/alumnos/:id',  validarAlumno, (req, res) => {
+       const alumnoActualizado = repositorio.actualizar(req.params.id, req.body);
+       return alumnoActualizado
+           ? res.status(200).json(alumnoActualizado)
+           : res.status(404).json({ error: 'Alumno no encontrado' })
     });
 
     // TODO: DELETE /alumnos/:id → eliminar (auth) → 204 o 404
     app.delete('/alumnos/:id', (req, res) => {
-        res.status(501).json({ error: 'TODO: DELETE /alumnos/:id' });
+        const eliminado = repositorio.eliminar(req.params.id);
+        return eliminado
+            ? res.status(204).send()
+            : res.status(404).json({ error: 'Alumno no encontrado' })
     });
 
     return app;
