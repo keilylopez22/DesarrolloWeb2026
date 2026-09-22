@@ -32,7 +32,25 @@ let idAEliminar = null;
  * Cada fila debe incluir botones "Editar" y "Eliminar".
  */
 async function cargarAlumnos() {
-    throw new Error('TODO: implementar cargarAlumnos()');
+    try {
+        const res = await fetch(API);
+        const alumnos = await res.json();
+        tabla.innerHTML = alumnos.map((a, i) => `
+            <tr>
+                <td>${a.id}</td>
+                <td>${a.nombre}</td>
+                <td>${a.apellido}</td>
+                <td>${a.email}</td>
+                <td>${a.edad ?? ''}</td>
+                <td>
+                    <button onclick="abrirDialogoEditar('${a.id}')">Editar</button>
+                    <button onclick="eliminarAlumno('${a.id}')">Eliminar</button>
+                </td>
+            </tr>
+        `).join('');
+    } catch (e) {
+        mostrarMensaje('Error al cargar alumnos', 'error');
+    }
 }
 
 /**
@@ -40,7 +58,10 @@ async function cargarAlumnos() {
  * idEnEdicion = null y abre dialogoForm con showModal().
  */
 function abrirDialogoNuevo() {
-    throw new Error('TODO: implementar abrirDialogoNuevo()');
+    form.reset();
+    tituloForm.textContent = 'Nuevo alumno';
+    idEnEdicion = null;
+    dialogoForm.showModal();
 }
 
 /**
@@ -48,8 +69,16 @@ function abrirDialogoNuevo() {
  * guarda su id en idEnEdicion, cambia el título a "Editar alumno"
  * y abre dialogoForm.
  */
-function abrirDialogoEditar(id) {
-    throw new Error('TODO: implementar abrirDialogoEditar()');
+async function abrirDialogoEditar(id) {
+    const res = await fetch(`${API}/${id}`);
+    const alumno = await res.json();
+    document.querySelector('#nombre').value = alumno.nombre;
+    document.querySelector('#apellido').value = alumno.apellido;
+    document.querySelector('#email').value = alumno.email;
+    document.querySelector('#edad').value = alumno.edad ?? '';
+    tituloForm.textContent = 'Editar alumno';
+    idEnEdicion = id;
+    dialogoForm.showModal();
 }
 
 /**
@@ -60,7 +89,24 @@ function abrirDialogoEditar(id) {
  * recarga la lista y muestra un mensaje.
  */
 async function guardarAlumno(event) {
-    throw new Error('TODO: implementar guardarAlumno()');
+    event.preventDefault();
+    const datos = {
+        nombre: document.querySelector('#nombre').value.trim(),
+        apellido: document.querySelector('#apellido').value.trim(),
+        email: document.querySelector('#email').value.trim(),
+        edad: Number(document.querySelector('#edad').value),
+    };
+    const url = idEnEdicion ? `${API}/${idEnEdicion}` : API;
+    const method = idEnEdicion ? 'PUT' : 'POST';
+    try {
+        const res = await fetch(url, { method, headers: cabeceras(), body: JSON.stringify(datos) });
+        if (!res.ok) throw new Error();
+        dialogoForm.close();
+        await cargarAlumnos();
+        mostrarMensaje(idEnEdicion ? 'Alumno actualizado' : 'Alumno creado');
+    } catch {
+        mostrarMensaje('Error al guardar alumno', 'error');
+    }
 }
 
 /**
@@ -68,24 +114,38 @@ async function guardarAlumno(event) {
  * DELETE /alumnos/:id con cabeceras(false). Luego recarga y avisa.
  */
 function eliminarAlumno(id) {
-    throw new Error('TODO: implementar eliminarAlumno()');
+    idAEliminar = id;
+    const fila = tabla.querySelector(`button[onclick="eliminarAlumno('${id}')"]`);
+    nombreEliminar.textContent = fila ? fila.closest('tr').cells[1].textContent : id;
+    dialogoEliminar.showModal();
 }
 
 /**
  * TODO: helper para mostrar mensajes (error en rojo, éxito en verde).
  */
 function mostrarMensaje(texto, tipo = 'ok') {
-    throw new Error('TODO: implementar mostrarMensaje()');
+    mensaje.textContent = texto;
+    mensaje.style.color = tipo === 'error' ? 'red' : 'green';
 }
 
 // ============================================================
 // Conexión de eventos (TODO: completa lo que falte)
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // TODO: botón "Nuevo alumno" → abrirDialogoNuevo()
-    // TODO: form submit → guardarAlumno(event)
-    // TODO: botón cancelar → dialogoForm.close()
-    // TODO: botón cancelar eliminar → dialogoEliminar.close()
-    // TODO: botón confirmar eliminar → ejecutar el DELETE
-    // TODO: llamar cargarAlumnos() al iniciar
+    document.querySelector('#btnNuevo').addEventListener('click', abrirDialogoNuevo);
+    form.addEventListener('submit', guardarAlumno);
+    document.querySelector('#btnCancelar').addEventListener('click', () => dialogoForm.close());
+    document.querySelector('#btnCancelarEliminar').addEventListener('click', () => dialogoEliminar.close());
+    document.querySelector('#btnConfirmarEliminar').addEventListener('click', async () => {
+        try {
+            const res = await fetch(`${API}/${idAEliminar}`, { method: 'DELETE', headers: cabeceras(false) });
+            if (!res.ok) throw new Error();
+            dialogoEliminar.close();
+            await cargarAlumnos();
+            mostrarMensaje('Alumno eliminado');
+        } catch {
+            mostrarMensaje('Error al eliminar alumno', 'error');
+        }
+    });
+    cargarAlumnos();
 });

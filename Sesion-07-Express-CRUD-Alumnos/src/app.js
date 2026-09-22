@@ -36,7 +36,7 @@ export function autenticacionFalsa(req, res, next) {
     const expectedApiKey = process.env.API_KEY || 'umg-2026';
 
     if (apiKey !== expectedApiKey) {
-        return res.status(401).json({ error: 'No autorizado' });
+         return res.status(401).json({ error: 'No autorizado' });
     }
     next(); // ← TODO: reemplazar por la validación del header
 }
@@ -88,8 +88,6 @@ export function crearApp(repositorio) {
 
     // Middlewares base
     app.use(express.json());
-    app.use(autenticacionFalsa);
- 
 
     // Sitio web estático (public/index.html, styles.css, app.js)
     app.use(express.static(join(__dirname, '..', 'public')));
@@ -109,14 +107,14 @@ export function crearApp(repositorio) {
     });
 
     // TODO: POST /alumnos → crear (requiere autenticacionFalsa + validarAlumno) → 201
-    app.post('/alumnos', validarAlumno,(req, res) => {
+    app.post('/alumnos', autenticacionFalsa, validarAlumno, (req, res) => {
        const nuevoAlumno = repositorio.crear(req.body);
        res.status(201).json(nuevoAlumno)
 
     });
 
     // TODO: PUT /alumnos/:id → actualizar (auth + validarAlumno) → 200 o 404
-    app.put('/alumnos/:id',  validarAlumno, (req, res) => {
+    app.put('/alumnos/:id', autenticacionFalsa, validarAlumno, (req, res) => {
        const alumnoActualizado = repositorio.actualizar(req.params.id, req.body);
        return alumnoActualizado
            ? res.status(200).json(alumnoActualizado)
@@ -124,7 +122,7 @@ export function crearApp(repositorio) {
     });
 
     // TODO: DELETE /alumnos/:id → eliminar (auth) → 204 o 404
-    app.delete('/alumnos/:id', (req, res) => {
+    app.delete('/alumnos/:id', autenticacionFalsa, (req, res) => {
         const eliminado = repositorio.eliminar(req.params.id);
         return eliminado
             ? res.status(204).send()
