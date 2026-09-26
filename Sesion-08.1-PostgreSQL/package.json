@@ -1,0 +1,18 @@
+{
+  "name": "tarea-express-crud-alumnos-pg",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CRUD Alumnos con Express + PostgreSQL + JWT — Desarrollo Web Sesión 8.1",
+  "scripts": {
+    "start": "node --env-file=config.env src/index.js",
+    "dev": "node --watch --env-file=config.env src/index.js",
+    "test": "node --test --env-file=config.env tests/repositorio.test.js tests/api.test.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-validator": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.12.0"
+  }
+}
